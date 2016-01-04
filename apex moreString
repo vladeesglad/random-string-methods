@@ -1,0 +1,301 @@
+public class moreString {
+    
+    //  AS A CLASS, THESE ARE ELABORATIONS OF STRING METHODS; SPECIFICALLY-PURPOSEFUL STRING METHODS
+    //  METHODS TO ADD:   
+    //   
+
+    
+    public static string removeHTML (string userinput) {
+        
+        string repaired = '';
+        
+        repaired  = userinput.replaceAll('<br>', '');
+        
+        return repaired;      
+        
+    }    
+    
+    
+    
+    
+    public static string justnumbers(string userinput)  {
+        
+        integer itemlen;
+        integer uu;
+        string tmp = '';
+        string newitem = '';
+        
+        itemlen = userinput.length();    
+        for (uu = 0; uu < itemlen; uu++) {
+            tmp = userinput.substring(uu, uu + 1);
+            if (tmp.isnumeric()) {
+                newitem += tmp;
+                continue;
+            }        
+        }
+        system.debug(newitem);
+        return newitem;
+    }
+    
+    
+    
+    public static string givebacknumbers(string userinput)  {
+        
+        integer itemlen;
+        integer uu;
+        string tmp = '';
+        string newitem = '';
+        
+        itemlen = userinput.length();    
+        for (uu = 0; uu < itemlen; uu++) {
+            tmp = userinput.substring(uu, uu + 1);
+            if (tmp.isnumeric()) {
+                newitem += tmp;
+                continue;
+            }        
+        }
+        system.debug(newitem);
+        return newitem;
+    }
+
+//		RETURNS MILITARY TIME FOR ENCODED INPUTS 
+		   
+    public static string militarytime (string userinput) {
+        string zulutime;
+        integer addtime = 0;
+        integer basetime;
+        integer ztime;
+        
+        if (userinput.containsignorecase('p') || userinput.contains('+')) {
+            addtime = 1200;            
+        }
+        
+        userinput = morestring.givebacknumbers(userinput);
+        basetime = integer.valueof(userinput);
+        ztime = basetime + addtime;
+        zulutime = string.valueof(ztime);    
+
+        return zulutime;
+    }
+    
+    
+    
+    public static string displayphone (string fone) {
+        //      USE THIS METHOD TO FORMAT PHONE NUMBERS SUBMITTED AFTER "CLEANSING" 
+        //      USE IT TO FORMAT PRIOR TO DATABASE QUERIES USING PHONE NUMBERS FOR MATCHING OR FILTERING
+        
+        string showphone;
+        string cleanfone;
+        
+        if (fone.length() == 10){
+            showphone = '(' + fone.left(3) + ') ' + fone.substring(3,6) + '-' + fone.substring(6,10);
+        }
+        
+        else {
+            cleanfone = morestring.givebacknumbers(fone);
+        }
+        
+        if (cleanfone.length() == 10) {
+            showphone = '(' + cleanfone.left(3) + ') ' + cleanfone.substring(3,6) + '-' + cleanfone.substring(6,10);
+        }
+        
+        if (string.isblank(showphone)) {
+            showphone = fone;
+        }
+        
+        return showphone;  
+    }  
+
+
+    
+    
+    public static boolean validemail (string userinput){
+        
+        boolean isvalid = false;
+        
+        string given = userinput;
+        if (given.contains('@') && given.countMatches('@') == 1 && given.substringafter('@').length()>2
+            && given.substringbefore('@').length()>1 && 
+            given.substringafter('@').contains('.') 
+            && given.substringafter('@').remove('.').isalphanumeric()){
+                isvalid = true;            
+            }       
+        
+        return isvalid;    
+        
+        
+    }    
+    
+
+    
+    public static string capitalizewords(string userinput) {
+        
+        string startswithcaps = '';
+        string thisword = '';
+        
+        list <string> words = new list <string>();
+        words = userinput.split(' ');
+        for (string word : words) {
+            if (word.left(1).isalpha() && word.length() > 1) {
+                thisword = word.capitalize();   
+            }
+            else {
+                thisword = word;
+            }
+            startswithcaps += thisword + ' ';            
+        }        
+        
+        startswithcaps = startswithcaps.normalizeSpace();
+        
+        return startswithcaps;        
+        
+    }
+    
+    
+//      THIS IS REGEX METHODS FOR CLEANING UP THE STUFF STRING
+    
+    
+    public static string cleanStuff (string stuff) {
+        string returnstuff = '';
+        
+        string searchBoundary1 = '(?i)okay';
+        stuff = stuff.replaceAll(searchBoundary1,' / ');        
+        string searchBoundary3 = '(?i)equals';
+        string searchBoundary4 = '(?i)equal';
+        string searchBoundary5 = '(?i)eqauls';
+        string searchBoundary6 = '(?i)eqaul';
+        
+        stuff = stuff.replaceAll('=',' = ');
+        stuff = stuff.replaceAll(':',' = ');
+        stuff = stuff.replaceAll(searchBoundary3,' = ');
+        stuff = stuff.replaceAll(searchBoundary4,' = ');
+        stuff = stuff.replaceAll(searchBoundary5,' = ');
+        stuff = stuff.replaceAll(searchBoundary6,' = ');
+        
+        //      SO THIS WORKS FOR OKLAHOMA (IF IT'S CAPITALIZED)        
+        
+        string searchBoundary2 = '\\sok';        
+        stuff = stuff.replaceAll(searchBoundary2,' / ');
+        stuff = stuff.removeEnd('/');
+        stuff = stuff.removeEnd('=');
+        stuff = stuff.removeEnd('/');
+        
+        stuff = stuff.normalizeSpace();
+        
+        returnstuff = stuff;
+
+        return returnstuff;
+        
+        
+    }
+    
+
+    public static string formatviewfordate (string userinput){
+        
+        
+        integer itemlen;
+        integer uu;
+        string tmp = '';
+        string lookatme = '';
+        date mydate;
+        
+        itemlen = userinput.length();    
+        for (uu = 0; uu < itemlen; uu++) {
+            tmp = userinput.substring(uu, uu + 1);
+            if (tmp.isnumeric()) {
+                lookatme += tmp;
+                continue;
+            }        
+        }
+        
+        //		THIS METHOD USES A TRY-CATCH BLOCK TO CONVERT THE DATE STRING TO A DATE, ASSUMING THAT IF A CONVERSION IS POSSIBLE THEN THE DATE STRING IS GOOD
+        
+        if (lookatme.length()== 8 && integer.valueof(lookatme.left(2)) > 0  && integer.valueof(lookatme.left(2)) < 13 
+            && integer.valueof(lookatme.mid(2,2)) > 0  && integer.valueof(lookatme.mid(2,2)) < 32 ) {
+                
+                lookatme = lookatme.left(2) + '/' + lookatme.mid(2,2) + '/' + lookatme.right(4);                  
+                
+                try {
+                    mydate = date.parse(lookatme);                    
+                }
+                catch (exception e) {
+                    system.debug(lookatme);
+                    system.debug(mydate);
+                    lookatme = userinput;
+                }  
+            }        
+        
+        else lookatme = userinput;
+        
+        system.debug(mydate);
+        system.debug(lookatme);
+        return lookatme;
+    }
+    
+
+    
+    //  THIS METHOD TAKES A STANDARD (US) STRING FORMAT FOR DATES (mm/dd/yyyy) AND CONVERTS TO DB FORMAT (yyyy-mm-dd)
+    //  THEN CONVERTS TO AND RETURNS DATATYPE "DATE"
+    //  RETURN A DEFAULT DATE TODAY() FOR BAD USERINPUT
+    
+    public static date mydate (string userinput) {
+        
+        integer itemlen;
+        integer uu;
+        string tmp = '';
+        string lookatme = '';
+        date mydate;
+        date insertme;
+        datetime tday = datetime.now();
+        
+        itemlen = userinput.length();    
+        for (uu = 0; uu < itemlen; uu++) {
+            tmp = userinput.substring(uu, uu + 1);
+            if (tmp.isnumeric()) {
+                lookatme += tmp;
+                continue;
+            }        
+        }
+        
+        //		THIS METHOD USES A TRY-CATCH BLOCK TO CONVERT THE DATE STRING TO A DATE, ASSUMING THAT IF A CONVERSION IS POSSIBLE THEN THE DATE STRING IS GOOD
+        //		IF IT RESULTS THAT THE DATE STRING GIVEN IS GOOD FOR A DATE, THEN THE DATE IS RETURNED; IF NOT, THE VALUE DEFAULTS TO TODAY'S DATE
+        //		ONE COULD IMAGING AN ADDITIONAL PARAMENT REQUIRED UPON SUBMISSION, A BOOL TRUE OR FALSE, WHICH LETS THE DEVELOPER KNOW THAT THEY
+        //		CAN GET BACK NULL INSTEAD OF TODAY'S DATE IF THE SUBMITTED INFO IS BAD
+        
+        if (lookatme.length()== 8 && integer.valueof(lookatme.left(2)) > 0  && integer.valueof(lookatme.left(2)) < 13 
+            && integer.valueof(lookatme.mid(2,2)) > 0  && integer.valueof(lookatme.mid(2,2)) < 32 ) {
+                
+                lookatme = lookatme.left(2) + '/' + lookatme.mid(2,2) + '/' + lookatme.right(4);                  
+                
+                try {
+                    mydate = date.parse(lookatme);                    
+                }
+                catch (exception e) {
+                    system.debug(lookatme);
+                    system.debug(mydate);
+                    lookatme = userinput;
+                }  
+            }        
+        
+        else lookatme = userinput;
+        
+        system.debug(mydate);
+        system.debug(lookatme);
+
+    
+        if (mydate != null) {
+            insertme = mydate;            
+        }
+        
+        else {
+            insertme = date.valueof(tday);
+        }
+
+        return insertme;        
+        
+    }
+    
+    
+    
+        
+}
