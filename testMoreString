@@ -203,7 +203,6 @@ public class testMoreString {
         
         system.assertnotequals(nowdate, returndate);      
         
-
         test.stopTest();
         
     }
