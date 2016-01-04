@@ -1,0 +1,210 @@
+@ istest
+
+public class testMoreString {
+    
+    public static testMethod void testMoreString() {
+    
+        
+        test.startTest();
+        
+        //		TEST FIX HTML
+        
+        string apstr = '<br>';
+        
+        string noapstr;
+        
+        boolean containsnot;
+        
+        containsnot = apstr.contains('<br>');
+        
+        system.assertequals(true,containsnot);
+        
+        system.debug(containsnot);
+        
+        noapstr = morestring.removeHTML(apstr);
+        
+        containsnot = noapstr.contains('<br>');
+        
+        system.assertequals(false,containsnot);
+        
+        system.debug(containsnot);
+
+
+        //	TEST JUST NUMBERS
+        
+        string hasletters = 'asdf5dgf5sdfsg4';
+        
+        hasletters = morestring.justnumbers(hasletters);
+        
+        system.assertequals(true, hasletters.isNumeric());
+        
+        string onlynumbers = '57681469871';
+        
+        integer len1 = onlynumbers.length();
+        
+        onlynumbers = morestring.justnumbers(onlynumbers);
+        
+        integer len2 = onlynumbers.length();
+        
+        system.assertequals(len1, len2);
+        
+        
+        //		TEST GIVE BACK NUMBERS
+        
+        hasletters = 'adfg86erg((*5096^#23xvz5x15z';
+        
+        hasletters = morestring.givebacknumbers(hasletters);
+        
+        system.assertequals(true, hasletters.isNumeric());
+        
+        onlynumbers = '16450646513';
+        
+        len1 = onlynumbers.length();
+        
+        onlynumbers = morestring.justnumbers(onlynumbers);
+        
+        len2 = onlynumbers.length();
+        
+        system.assertequals(len1, len2);        
+        
+		//		TEST MILITARYTIME        
+        
+        string sometime = '300';
+        
+        string someothertime = '400+';
+        
+        string returnedtime = morestring.militarytime(sometime);
+        
+        system.assertequals('300', returnedtime);
+        
+        returnedtime = morestring.militarytime(someothertime);
+        
+        system.assertequals('1600',returnedtime);
+        
+        //		TEST DISPLAYPHONE
+        
+        string userinput = '2129885622';
+        
+        string userinputbad = '98512365888';
+        
+        string userinputgood = '66548555-36/';
+        
+        string extract = morestring.displayphone(userinput);
+        
+        system.assertequals('(212) 988-5622', extract);
+        
+        extract = morestring.displayphone(userinputbad);
+        
+        system.assertequals('98512365888',extract);
+        
+        extract = morestring.displayphone(userinputgood);
+        
+        system.assertequals('(665) 485-5536', extract);
+        
+ 
+        //		TEST VALID EMAIL
+
+        
+        string em = 'johny.forsooth@asdf.dod';
+        
+        string en = 'somboy@orother@fifty.co';
+        
+        string ooo = 'andthisoneis@nogood';
+        
+        boolean good = morestring.validemail(em);
+        
+        system.assertequals(true, good);
+
+        good = morestring.validemail(en);
+
+        system.assertequals(false, good);
+        
+        good = morestring.validemail(ooo);
+
+        system.assertequals(false, good);       
+        
+        
+        //		TEST STARTS WITH CAPS
+        
+        
+        string phrase = 'the crazy fox   jumped over the stupid ass dog';
+        
+        string returnedstring;
+        
+        returnedstring = morestring.capitalizewords(phrase);
+        
+        system.assertequals('The Crazy Fox Jumped Over The Stupid Ass Dog',returnedstring);
+        
+        
+        //	TEST CLEAN STUFF
+        
+        
+        string messy = 'asdf/asdf eqauls eqwevvvvvvvv / asdre equal asdf /';
+        
+        string clean = morestring.cleanstuff(messy);
+        
+        system.assertequals(2, clean.countMatches(' = ') );
+        
+        
+        
+        
+        
+        //		TEST VIEWFORDATE
+        
+        
+
+        string datestring = '23312987';
+        
+        string returnedval;
+        
+        returnedval= morestring.formatviewfordate(datestring);
+        
+        system.debug(returnedval);
+        
+        system.assertequals(datestring, returnedval);
+        
+        datestring = '02311987';
+        
+        returnedval= morestring.formatviewfordate(datestring);
+        
+        system.assertequals(datestring, returnedval);
+        
+        datestring = '02281987';
+        
+        returnedval= morestring.formatviewfordate(datestring);
+        
+        system.assertnotequals(datestring, returnedval);
+        
+        
+        
+        //		TEST MYDATE
+        
+        
+
+        datestring = '23312987';
+        
+        date returndate;
+        
+        date nowdate = date.valueof(datetime.now());
+        
+        returndate= morestring.mydate(datestring);        
+        
+        system.assertequals(nowdate, returndate);
+        
+        datestring = '02311987';
+        
+        returndate= morestring.mydate(datestring); 
+        
+        system.assertequals(nowdate, returndate);
+        
+        datestring = '02281987';
+        
+        returndate= morestring.mydate(datestring); 
+        
+        system.assertnotequals(nowdate, returndate);      
+        
+
+        test.stopTest();
+        
+    }
+}
