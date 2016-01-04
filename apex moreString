@@ -87,7 +87,7 @@ public class moreString {
         string showphone;
         string cleanfone;
         
-        if (fone.length() == 10){
+        if (!string.isblank(fone) && fone.length() == 10){
             showphone = '(' + fone.left(3) + ') ' + fone.substring(3,6) + '-' + fone.substring(6,10);
         }
         
@@ -95,7 +95,7 @@ public class moreString {
             cleanfone = morestring.givebacknumbers(fone);
         }
         
-        if (cleanfone.length() == 10) {
+        if (!string.isblank(cleanfone) && cleanfone.length() == 10) {
             showphone = '(' + cleanfone.left(3) + ') ' + cleanfone.substring(3,6) + '-' + cleanfone.substring(6,10);
         }
         
