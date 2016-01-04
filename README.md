@@ -1,0 +1,3 @@
+# random-string-methods
+a collection of utility string methods 
+...
