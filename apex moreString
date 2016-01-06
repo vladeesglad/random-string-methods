@@ -58,23 +58,37 @@ public class moreString {
         return newitem;
     }
 
-//		RETURNS MILITARY TIME FOR ENCODED INPUTS 
+//		RETURNS MILITARY TIME FOR ENCODED INPUTS AND VALIDATES NUMERIC RANGE OF STRING INPUTS 
+//		RETURNS NULL FOR BAD INPUT
 		   
     public static string militarytime (string userinput) {
-        string zulutime;
+        
+        string zulutime = '';
         integer addtime = 0;
         integer basetime;
         integer ztime;
+        integer inputasnumber;
+        integer minutesasnumber;
         
-        if (userinput.containsignorecase('p') || userinput.contains('+')) {
-            addtime = 1200;            
+        if (!string.isblank(userinput)) {
+            inputasnumber = integer.valueof(morestring.justnumbers(userinput));
+            minutesasnumber = integer.valueof(morestring.justnumbers(userinput.right(2)));               
+        } 
+        
+        if (inputasnumber != null && inputasnumber < 1260 && minutesasnumber < 60) {
+            
+            if (userinput.containsignorecase('p') || userinput.contains('+')) {
+                addtime = 1200;            
+            }
+            
+            userinput = morestring.givebacknumbers(userinput);
+            basetime = integer.valueof(userinput);
+            ztime = basetime + addtime;
+            zulutime = string.valueof(ztime);    
         }
         
-        userinput = morestring.givebacknumbers(userinput);
-        basetime = integer.valueof(userinput);
-        ztime = basetime + addtime;
-        zulutime = string.valueof(ztime);    
-
+        
+        
         return zulutime;
     }
     
